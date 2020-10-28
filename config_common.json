@@ -1,0 +1,13 @@
+{
+    "pathToOCexe": "C:\\Projects\\openshift\\oc.exe",
+    "network": {
+        "userName": "",
+        "password": "",
+        "serverUrl": "",
+        "serverName": "",
+        "serviceName": ""
+    },
+    "keepScanning": "true",
+    "numberOfMessagesToTake": 1000,
+    "showLineNumbers": "true"
+}

@@ -1,0 +1,107 @@
+.root div {
+    margin-left: 20px;
+}
+
+.collapsibleButton {
+    /* padding: 0; */
+    border: none;
+    background: none;
+    outline: none;
+}
+
+.integer {
+    color: brown;
+    -webkit-font-smoothing: antialiased;
+    font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, serif;
+    font-size: 1rem;
+}
+
+.integerKey {
+    color: darkgreen;
+    -webkit-font-smoothing: antialiased;
+    font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, serif;
+    font-size: 1rem;
+}
+
+.null {
+    color: red;
+    -webkit-font-smoothing: antialiased;
+    font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, serif;
+    font-size: 1rem;
+}
+
+.nullKey {
+    color: darkgreen;
+    -webkit-font-smoothing: antialiased;
+    font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, serif;
+    font-size: 1rem;
+}
+
+.stringKey {
+    color: darkgreen;
+    -webkit-font-smoothing: antialiased;
+    font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, serif;
+    font-size: 1rem;
+}
+
+.string {
+    color: green;
+    -webkit-font-smoothing: antialiased;
+    font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, serif;
+    font-size: 1rem;
+}
+
+.comma {
+    color: blueviolet;
+    -webkit-font-smoothing: antialiased;
+    font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, serif;
+    font-size: 1rem;
+}
+
+.booleanKey {
+    color: darkgreen;
+    -webkit-font-smoothing: antialiased;
+    font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, serif;
+    font-size: 1rem;
+}
+
+.boolean {
+    color: green;
+    -webkit-font-smoothing: antialiased;
+    font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, serif;
+    font-size: 1rem;
+}
+
+.objectKey {
+    color: darkgreen;
+    -webkit-font-smoothing: antialiased;
+    font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, serif;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.objectKey:hover {
+    text-decoration: underline;
+    font-weight: 900;
+}
+
+.arrayKey {
+    color: darkgreen;
+    -webkit-font-smoothing: antialiased;
+    font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, serif;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.arrayKey:hover {
+    text-decoration: underline;
+    font-weight: 900;
+}
+
+body {
+    background-color: lemonchiffon;
+}
+
+table {
+    table-layout: fixed;
+}
