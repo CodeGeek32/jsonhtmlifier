@@ -1,17 +1,17 @@
 (function (doc) {
-    // let json = '{"loanRequestId":"555f9f35-3694-4daa-9cc4-d8cf8207f7f1","requestHistoryFrontId":null,"loanRequestExtId":"3566a2f6-18b1-4ba7-a9a9-a9275511a809","loanRequestExtNum":null,"customerRequestExtId":"2e94cb8e-5949-448e-82f1-e8c25cc114d4","extCreateDttm":{"year":2020,"month":"JULY","nano":0,"monthValue":7,"dayOfMonth":3,"hour":12,"minute":11,"second":0,"dayOfWeek":"FRIDAY","dayOfYear":185,"chronology":{"calendarType":"iso8601","id":"ISO"}},"callCd":1,"iterationNum":3,"statusCd":null,"channelCd":220,"loanRequestDttm":{"year":2020,"month":"AUGUST","nano":469000000,"monthValue":8,"dayOfMonth":11,"hour":14,"minute":15,"second":37,"dayOfWeek":"TUESDAY","dayOfYear":224,"chronology":{"calendarType":"iso8601","id":"ISO"}},"loanRequestUnixDttm":1597155337,"loanRequestUpdDttm":null,"onlinePaOffer":{"offerId":"661256f7-e95b-4244-bc0e-125f2bd28fcc","customerMdmId":null,"offerExpirationDt":{"year":2020,"month":"MAY","chronology":{"calendarType":"iso8601","id":"ISO"},"leapYear":true,"monthValue":5,"dayOfMonth":12,"dayOfWeek":"TUESDAY","era":"CE","dayOfYear":133},"creditLimit":162000.00,"cashInterestRateVal":11.00000,"posInterestRateVal":11.00000,"currencyCd":101018,"calRiskGradeCd":10460021,"productCd":10410001,"approvedCreditAmt":null,"creditPeriod":null,"contractId":null,"topupLoanAgreementNum":null,"bisSourceSystemNum":null,"sourceSystemCd":null},"creditParameters":[{"productKindCd":10260001,"productCd":null,"currencyCd":101010,"requestedSum":650000.00000,"creditPeriod":null,"insuranceAgrFlg":null}],"loanRequestComments":[{"commentOwnerLogin":"petr.zhukov","commentTypeCd":13,"commentCreateDttm":{"year":2020,"month":"JULY","nano":0,"monthValue":7,"dayOfMonth":3,"hour":12,"minute":11,"second":0,"dayOfWeek":"FRIDAY","dayOfYear":185,"chronology":{"calendarType":"iso8601","id":"ISO"}},"commentText":"На согласовании1"}],"employees":[{"lastNm":"Крылов","firstNm":"Павел","thirdNm":"Анатольевич","employeeNum":"0076560","employeeLoginNm":"petr.zhukov","bisDepartmentCd":99999,"bankDepartmentCd":10,"salePointAddress":"г. Тверь, ул. Вагжанова, 15","employeeRoleCd":10}],"participants":[{"customerFormId":"47611747-5c68-4bbb-9696-3fe2c4f3b130","participantRoleCd":10060001}],"dwhPaOffers":[],"creditIssuanceResults":[],"webAnalytics":[]}';
-    // json = JSON.parse(json);
+    let example = '{"loanRequestId":"555f9f35-3694-4daa-9cc4-d8cf8207f7f1","requestHistoryFrontId":null,"loanRequestExtId":"3566a2f6-18b1-4ba7-a9a9-a9275511a809","loanRequestExtNum":null,"customerRequestExtId":"2e94cb8e-5949-448e-82f1-e8c25cc114d4","extCreateDttm":{"year":2020,"month":"JULY","nano":0,"monthValue":7,"dayOfMonth":3,"hour":12,"minute":11,"second":0,"dayOfWeek":"FRIDAY","dayOfYear":185,"chronology":{"calendarType":"iso8601","id":"ISO"}},"callCd":1,"iterationNum":3,"statusCd":null,"channelCd":220,"loanRequestDttm":{"year":2020,"month":"AUGUST","nano":469000000,"monthValue":8,"dayOfMonth":11,"hour":14,"minute":15,"second":37,"dayOfWeek":"TUESDAY","dayOfYear":224,"chronology":{"calendarType":"iso8601","id":"ISO"}},"loanRequestUnixDttm":1597155337,"loanRequestUpdDttm":null,"onlinePaOffer":{"offerId":"661256f7-e95b-4244-bc0e-125f2bd28fcc","customerMdmId":null,"offerExpirationDt":{"year":2020,"month":"MAY","chronology":{"calendarType":"iso8601","id":"ISO"},"leapYear":true,"monthValue":5,"dayOfMonth":12,"dayOfWeek":"TUESDAY","era":"CE","dayOfYear":133},"creditLimit":162000.00,"cashInterestRateVal":11.00000,"posInterestRateVal":11.00000,"currencyCd":101018,"calRiskGradeCd":10460021,"productCd":10410001,"approvedCreditAmt":null,"creditPeriod":null,"contractId":null,"topupLoanAgreementNum":null,"bisSourceSystemNum":null,"sourceSystemCd":null},"creditParameters":[{"productKindCd":10260001,"productCd":null,"currencyCd":101010,"requestedSum":650000.00000,"creditPeriod":null,"insuranceAgrFlg":null}],"loanRequestComments":[{"commentOwnerLogin":"petr.zhukov","commentTypeCd":13,"commentCreateDttm":{"year":2020,"month":"JULY","nano":0,"monthValue":7,"dayOfMonth":3,"hour":12,"minute":11,"second":0,"dayOfWeek":"FRIDAY","dayOfYear":185,"chronology":{"calendarType":"iso8601","id":"ISO"}},"commentText":"На согласовании1"}],"employees":[{"lastNm":"Крылов","firstNm":"Павел","thirdNm":"Анатольевич","employeeNum":"0076560","employeeLoginNm":"petr.zhukov","bisDepartmentCd":99999,"bankDepartmentCd":10,"salePointAddress":"г. Тверь, ул. Вагжанова, 15","employeeRoleCd":10}],"participants":[{"customerFormId":"47611747-5c68-4bbb-9696-3fe2c4f3b130","participantRoleCd":10060001}],"dwhPaOffers":[],"creditIssuanceResults":[],"webAnalytics":[]}';
+    example = JSON.parse(example);
 
-     let b = doc.getElementById("root");
+    let b = doc.getElementById("root");
 
-    //let example = { "number": "123", "lala": null, "obj" : { "propery one" : "some value", "property two" : 8888}, "some name": 123.312, "another name": 333 };
+    // let example = { "number": "123", "lala": null, "obj" : { "propery one" : "some value", "property two" : 8888}, "some name": 123.312, "another name": 333 };
     // let example = { "number": 123, "arrya": [null, 2, "3", 1232, { "key": "value", "anotherKey" : 12321 }, "asdf"] };
-    let example = [[1], 2, 3, 4, 5];
+    // let example = [[1], 2, 3, 4, 5];
 
     // let example = { "leapYear" : true };
 
-     b.appendChild(jsonToHtml(example, doc));
-     attachHandlers(b);
+    b.appendChild(jsonToHtml(example, doc));
+    attachHandlers(b);
 
 })(document);
 
@@ -155,29 +155,30 @@ function createNullNode(document, k, v, isLast) {
 function htmlifyObject(json, document) {
 
     let length = Object.keys(json).length
-    let arr = new Array(length);
+    // let arr = new Array(length);
+    let retVal = document.createElement('div');
     let i = 0;
     for (var propt in json) {
 
         let isLast = i + 1 >= length;
         // { "key" : "some string" };
         if (tellType(propt) == 'string' && tellType(json[propt]) == 'string') {
-            arr[i] = createStringNode(document, propt, json[propt], isLast);
+            retVal.appendChild(createStringNode(document, propt, json[propt], isLast));
         }
         // { "key" : 123 };
         else if (tellType(propt) == 'string' && tellType(json[propt]) == 'integer') {
-            arr[i] = createIntegerNode(document, propt, json[propt], isLast);
+            retVal.appendChild(createIntegerNode(document, propt, json[propt], isLast));
         }
         else if (tellType(propt) == 'string' && tellType(json[propt]) == 'float') {
-            arr[i] = createIntegerNode(document, propt, json[propt], isLast);
+            retVal.appendChild(createIntegerNode(document, propt, json[propt], isLast));
         }
         // { "key" : boolean }
         else if (tellType(propt) == 'string' && tellType(json[propt]) == 'boolean') {
-            arr[i] = createBoolNode(document, propt, json[propt], isLast);
+            retVal.appendChild(createBoolNode(document, propt, json[propt], isLast));
         }
         // { "key" : null };
         else if (tellType(propt) == 'string' && tellType(json[propt]) == 'null') {
-            arr[i] = createNullNode(document, propt, json[propt], isLast);
+            retVal.appendChild(createNullNode(document, propt, json[propt], isLast));
         }
         // { "key" : object };
         else if (tellType(propt) == 'string' && tellType(json[propt]) == 'object') {
@@ -205,24 +206,29 @@ function htmlifyObject(json, document) {
                 div.appendChild(comma);
             }
 
-            arr[i] = div;
+            retVal.appendChild(div);
         }
         // { "key" : array };
         else if (tellType(propt) == 'string' && tellType(json[propt]) == 'array') {
-            
+
             let div = document.createElement('div');
+
+            let arrayHasElements = json[propt].length > 0;
 
             let spanOpening = document.createElement('span');
             spanOpening.className += "arrayKey";
-            spanOpening.className += " collapsibleButton";
+            if (arrayHasElements)
+                spanOpening.className += " collapsibleButton";
             spanOpening.textContent = '"' + propt + '" : [';
             div.appendChild(spanOpening);
 
-            div.appendChild(collapseButton(document));
+            if (arrayHasElements) {
+                div.appendChild(collapseButton(document));
 
-            let aaargh = htmlifyArray(json[propt], document);
-            aaargh.className += "toCollapse";
-            div.appendChild(aaargh);
+                let aaargh = htmlifyArray(json[propt], document);
+                aaargh.className += "toCollapse";
+                div.appendChild(aaargh);
+            }
 
             div.appendChild(arrayClosingBracket(document));
             if (!isLast) {
@@ -232,31 +238,23 @@ function htmlifyObject(json, document) {
                 div.appendChild(comma);
             }
 
-            arr[i] = div;
+            retVal.appendChild(div);
         }
 
         i++;
     }
 
-    let obj = document.createElement('div');
-    let k = 0;
-    while (k < i) {
-        obj.appendChild(arr[k]);
-        k++;
-    }
-
-    return obj;
+    return retVal;
 }
 
 function htmlifyArray(_array, document) {
 
-    let arr = new Array(Object.keys(_array).length);
+    let retVal = document.createElement('div');
     let div, value;
 
     let i = 0;
     while (i < _array.length) {
 
-        // "asdfasdf"
         let notLast = i + 1 < _array.length;
 
         if (tellType(_array[i]) == 'string') {
@@ -276,10 +274,10 @@ function htmlifyArray(_array, document) {
                 div.appendChild(comma);
             }
 
-            arr[i] = div;
+            retVal.appendChild(div);
         }
-        // 123 
         else if (tellType(_array[i]) == 'integer') {
+
             div = document.createElement('div');
 
             value = document.createElement('span');
@@ -295,9 +293,8 @@ function htmlifyArray(_array, document) {
                 div.appendChild(comma);
             }
 
-            arr[i] = div;
+            retVal.appendChild(div);
         }
-        // 123.123
         else if (tellType(_array[i]) == 'float') {
             div = document.createElement('div');
 
@@ -314,9 +311,8 @@ function htmlifyArray(_array, document) {
                 div.appendChild(comma);
             }
 
-            arr[i] = div;
+            retVal.appendChild(div);
         }
-        // null
         else if (tellType(_array[i]) == 'null') {
             div = document.createElement('div');
 
@@ -333,9 +329,8 @@ function htmlifyArray(_array, document) {
                 div.appendChild(comma);
             }
 
-            arr[i] = div;
+            retVal.appendChild(div);
         }
-        // { object }
         else if (tellType(_array[i]) == 'object') {
 
             div = document.createElement('div');
@@ -357,20 +352,23 @@ function htmlifyArray(_array, document) {
                 div.appendChild(comma);
             }
 
-            arr[i] = div;
+            retVal.appendChild(div);
         }
-        // { array };
         else if (tellType(_array[i]) == 'array') {
             div = document.createElement('div');
 
             div.appendChild(arrayOpeningBracket(document));
 
-            div.appendChild(collapseButton(document));
+            let arrayHasElements = _array[i].length > 0;
 
-            let uniqueVariableName = htmlifyArray(_array[i], document);
-            uniqueVariableName.className += "toCollapse";
+            if (arrayHasElements) {
+                div.appendChild(collapseButton(document));
 
-            div.appendChild(uniqueVariableName);
+                let uniqueVariableName = htmlifyArray(_array[i], document);
+                uniqueVariableName.className += "toCollapse";
+
+                div.appendChild(uniqueVariableName);
+            }
 
             div.appendChild(arrayClosingBracket(document));
 
@@ -381,26 +379,19 @@ function htmlifyArray(_array, document) {
                 div.appendChild(comma);
             }
 
-            arr[i] = div;
+            retVal.appendChild(div);
         }
 
         i++;
     }
 
-    let obj = document.createElement('div');
-    let k = 0;
-    while (k < i) {
-        obj.appendChild(arr[k]);
-        k++;
-    }
-
-    return obj;
+    return retVal;
 }
 
 function objectOpeningBracket(document) {
 
     let retVal = document.createElement('span');
-    retVal.className += "object opening bracket";
+    retVal.className += "objectKey";
     retVal.textContent = '{';
 
     return retVal;
@@ -409,7 +400,7 @@ function objectOpeningBracket(document) {
 function objectClosingBracket(document) {
 
     let retVal = document.createElement('span');
-    retVal.className += "object closing bracket";
+    retVal.className += "objectKey";
     retVal.textContent = '}';
 
     return retVal;
@@ -418,7 +409,7 @@ function objectClosingBracket(document) {
 function arrayOpeningBracket(document) {
 
     let retVal = document.createElement('span');
-    retVal.className += "array opening bracket";
+    retVal.className += "arrayKey";
     retVal.textContent = '[';
 
     return retVal;
@@ -427,7 +418,7 @@ function arrayOpeningBracket(document) {
 function arrayClosingBracket(document) {
 
     let retVal = document.createElement('span');
-    retVal.className += "array closing bracket";
+    retVal.className += "arrayKey";
     retVal.textContent = ']';
 
     return retVal;
