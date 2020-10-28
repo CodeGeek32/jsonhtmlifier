@@ -2,16 +2,16 @@
     // let json = '{"loanRequestId":"555f9f35-3694-4daa-9cc4-d8cf8207f7f1","requestHistoryFrontId":null,"loanRequestExtId":"3566a2f6-18b1-4ba7-a9a9-a9275511a809","loanRequestExtNum":null,"customerRequestExtId":"2e94cb8e-5949-448e-82f1-e8c25cc114d4","extCreateDttm":{"year":2020,"month":"JULY","nano":0,"monthValue":7,"dayOfMonth":3,"hour":12,"minute":11,"second":0,"dayOfWeek":"FRIDAY","dayOfYear":185,"chronology":{"calendarType":"iso8601","id":"ISO"}},"callCd":1,"iterationNum":3,"statusCd":null,"channelCd":220,"loanRequestDttm":{"year":2020,"month":"AUGUST","nano":469000000,"monthValue":8,"dayOfMonth":11,"hour":14,"minute":15,"second":37,"dayOfWeek":"TUESDAY","dayOfYear":224,"chronology":{"calendarType":"iso8601","id":"ISO"}},"loanRequestUnixDttm":1597155337,"loanRequestUpdDttm":null,"onlinePaOffer":{"offerId":"661256f7-e95b-4244-bc0e-125f2bd28fcc","customerMdmId":null,"offerExpirationDt":{"year":2020,"month":"MAY","chronology":{"calendarType":"iso8601","id":"ISO"},"leapYear":true,"monthValue":5,"dayOfMonth":12,"dayOfWeek":"TUESDAY","era":"CE","dayOfYear":133},"creditLimit":162000.00,"cashInterestRateVal":11.00000,"posInterestRateVal":11.00000,"currencyCd":101018,"calRiskGradeCd":10460021,"productCd":10410001,"approvedCreditAmt":null,"creditPeriod":null,"contractId":null,"topupLoanAgreementNum":null,"bisSourceSystemNum":null,"sourceSystemCd":null},"creditParameters":[{"productKindCd":10260001,"productCd":null,"currencyCd":101010,"requestedSum":650000.00000,"creditPeriod":null,"insuranceAgrFlg":null}],"loanRequestComments":[{"commentOwnerLogin":"petr.zhukov","commentTypeCd":13,"commentCreateDttm":{"year":2020,"month":"JULY","nano":0,"monthValue":7,"dayOfMonth":3,"hour":12,"minute":11,"second":0,"dayOfWeek":"FRIDAY","dayOfYear":185,"chronology":{"calendarType":"iso8601","id":"ISO"}},"commentText":"На согласовании1"}],"employees":[{"lastNm":"Крылов","firstNm":"Павел","thirdNm":"Анатольевич","employeeNum":"0076560","employeeLoginNm":"petr.zhukov","bisDepartmentCd":99999,"bankDepartmentCd":10,"salePointAddress":"г. Тверь, ул. Вагжанова, 15","employeeRoleCd":10}],"participants":[{"customerFormId":"47611747-5c68-4bbb-9696-3fe2c4f3b130","participantRoleCd":10060001}],"dwhPaOffers":[],"creditIssuanceResults":[],"webAnalytics":[]}';
     // json = JSON.parse(json);
 
-    // let b = doc.getElementById("root");
+     let b = doc.getElementById("root");
 
     //let example = { "number": "123", "lala": null, "obj" : { "propery one" : "some value", "property two" : 8888}, "some name": 123.312, "another name": 333 };
     // let example = { "number": 123, "arrya": [null, 2, "3", 1232, { "key": "value", "anotherKey" : 12321 }, "asdf"] };
-    //let example = [[1], 2, 3, 4, 5];
+    let example = [[1], 2, 3, 4, 5];
 
     // let example = { "leapYear" : true };
 
-    // b.appendChild(jsonToHtml(json, doc));
-    // attachHandlers(b);
+     b.appendChild(jsonToHtml(example, doc));
+     attachHandlers(b);
 
 })(document);
 
@@ -248,26 +248,28 @@ function htmlifyObject(json, document) {
     return obj;
 }
 
-function htmlifyArray(json, document) {
+function htmlifyArray(_array, document) {
 
-    let arr = new Array(Object.keys(json).length);
-    let div, value, spanOpening, spanClosing;
+    let arr = new Array(Object.keys(_array).length);
+    let div, value;
 
     let i = 0;
-    while (i < json.length) {
+    while (i < _array.length) {
 
         // "asdfasdf"
-        if (tellType(json[i]) == 'string') {
+        let notLast = i + 1 < _array.length;
+
+        if (tellType(_array[i]) == 'string') {
 
             div = document.createElement('div');
 
             value = document.createElement('span');
             value.className += "string";
-            value.textContent = '"' + json[i] + '"';
+            value.textContent = '"' + _array[i] + '"';
 
             div.appendChild(value);
 
-            if (i + 1 < json.length) {
+            if (notLast) {
                 let comma = document.createElement('span');
                 comma.className += "comma";
                 comma.textContent = ',';
@@ -277,16 +279,16 @@ function htmlifyArray(json, document) {
             arr[i] = div;
         }
         // 123 
-        else if (tellType(json[i]) == 'integer') {
+        else if (tellType(_array[i]) == 'integer') {
             div = document.createElement('div');
 
             value = document.createElement('span');
             value.className += "integer";
-            value.textContent = json[i];
+            value.textContent = _array[i];
 
             div.appendChild(value);
 
-            if (i + 1 < json.length) {
+            if (notLast) {
                 let comma = document.createElement('span');
                 comma.className += "comma";
                 comma.textContent = ',';
@@ -296,7 +298,7 @@ function htmlifyArray(json, document) {
             arr[i] = div;
         }
         // 123.123
-        else if (tellType(json[i]) == 'float') {
+        else if (tellType(_array[i]) == 'float') {
             div = document.createElement('div');
 
             value = document.createElement('span');
@@ -305,7 +307,7 @@ function htmlifyArray(json, document) {
 
             div.appendChild(value);
 
-            if (i + 1 < json.length) {
+            if (notLast) {
                 let comma = document.createElement('span');
                 comma.className += "comma";
                 comma.textContent = ',';
@@ -315,7 +317,7 @@ function htmlifyArray(json, document) {
             arr[i] = div;
         }
         // null
-        else if (tellType(json[i]) == 'null') {
+        else if (tellType(_array[i]) == 'null') {
             div = document.createElement('div');
 
             value = document.createElement('span');
@@ -324,7 +326,7 @@ function htmlifyArray(json, document) {
 
             div.appendChild(value);
 
-            if (i + 1 < json.length) {
+            if (notLast) {
                 let comma = document.createElement('span');
                 comma.className += "comma";
                 comma.textContent = ',';
@@ -334,21 +336,21 @@ function htmlifyArray(json, document) {
             arr[i] = div;
         }
         // { object }
-        else if (tellType(json[i]) == 'object') {
+        else if (tellType(_array[i]) == 'object') {
 
             div = document.createElement('div');
             div.appendChild(objectOpeningBracket(document));
 
             div.appendChild(collapseButton(document));
 
-            let obj = htmlifyObject(json[i], document);
+            let obj = htmlifyObject(_array[i], document);
             obj.className += "toCollapse";
 
             div.appendChild(obj);
 
             div.appendChild(objectClosingBracket(document));
 
-            if (i + 1 < json.length) {
+            if (notLast) {
                 let comma = document.createElement('span');
                 comma.className += "comma";
                 comma.textContent = ',';
@@ -358,21 +360,21 @@ function htmlifyArray(json, document) {
             arr[i] = div;
         }
         // { array };
-        else if (tellType(json[i]) == 'array') {
+        else if (tellType(_array[i]) == 'array') {
             div = document.createElement('div');
 
             div.appendChild(arrayOpeningBracket(document));
 
             div.appendChild(collapseButton(document));
 
-            let uniqueVariableName = htmlifyArray(json[i], document);
+            let uniqueVariableName = htmlifyArray(_array[i], document);
             uniqueVariableName.className += "toCollapse";
 
             div.appendChild(uniqueVariableName);
 
             div.appendChild(arrayClosingBracket(document));
 
-            if (i + 1 < json[i].length) {
+            if (notLast) {
                 let comma = document.createElement('span');
                 comma.className += "comma";
                 comma.textContent = ',';
