@@ -5,17 +5,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import javafx.util.Pair;
 
 public class App {
 
-    private String Pod_Name = "";
+    private String PodName = "";
     private Config Config;
 
     public static void main(String[] args) throws Exception {
-
-        // TODO: add processing of empty arrays, render them as one-liner in html
-        // TODO: move cli from windows-installed into internal directory(copy'n'paste? research )
+        // TODO: move cli from windows-installed into internal directory( copy'n'paste? research )
+        // TODO: serve page on a localhost server
 
         App app = new App();
 
@@ -25,40 +26,57 @@ public class App {
         String config_name = "config_common.json";
 
         String enforce_service_name = "okr-reactive-service";
+//        String enforce_service_name = "front-adapter";
+
 //        String enforce_service_name = "income-service";
 //          String enforce_service_name = "customer-service";
 //        String enforce_service_name = "customercheck-service";
+//        String enforce_service_name = "loanrequest-service";
+
 //        String enforce_service_name = "income-service";
 
 //        String enforce_service_name = "credithistory-reactive-service";
 //        String enforce_server_name = "test3";
 //        String enforce_server_name = "release3";
+//        String enforce_server_name = "release2";
 
-        String enforce_server_name = "develop4";
-//        String enforce_server_name = "develop3";
+
+//        String enforce_server_name = "develop4";
+        String enforce_server_name = "develop3";
 //        String enforce_server_name = "develop4";
 
         app.Config = app.Config.load_config_from_file(current_directory + config_name);
         if (!IsNullOrEmpty(enforce_server_name))
-            app.Config.server_name = enforce_server_name;
+            app.Config.setServerName(enforce_server_name);
         if (!IsNullOrEmpty(enforce_service_name))
-            app.Config.service_name = enforce_service_name;
+            app.Config.setServiceName(enforce_service_name);
 
         if (!app.login(app.Config))
             throw new Exception("Could not login");
 
-        app.Pod_Name = app.get_pod(app.Config);
+        Pair<Boolean, String> podName = App.tryGetPod(app.Config, 10);
+        if (podName.getKey())
+            app.PodName = podName.getValue();
 
-        String path_to_output = current_directory + "output\\" + app.Config.service_name + "_log_beautiful";
+        String path_to_output = current_directory + "output\\" + app.Config.getServiceName() + "_log_beautiful";
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
         do {
-            List<String> input_strings = app.fetch_log(app.Config, app.Pod_Name);
+            List<String> input_strings = null;
+            try {
+                input_strings = app.fetch_log(app.Config, app.PodName);
+            } catch (Exception e) {
+                System.out.println("Trying to get pod name");
+                podName = App.tryGetPod(app.Config, 10);
+                if (podName.getKey())
+                    app.PodName = podName.getValue();
+                continue;
+            }
 
             List<Message> messages = app.messagify(input_strings);
 
             List<Message> filtered = new ArrayList<>();
-            int start_index = Math.max(messages.size() - app.Config.numberOfMessagesToTake, 0);
+            int start_index = Math.max(messages.size() - app.Config.getNumberOfMessagesToTake(), 0);
             for (int i = start_index; i < messages.size(); i++)
                 filtered.add(messages.get(i));
 
@@ -70,24 +88,24 @@ public class App {
 
             LocalDateTime now = LocalDateTime.now();
 
-            System.out.printf("%s, html generated at: " + dtf.format(now) + ", number of entries shown:%d\n", app.Pod_Name, filtered.size());
+            System.out.printf("%s, html generated at: " + dtf.format(now) + ", number of entries shown:%d\n", app.PodName, filtered.size());
             Thread.sleep(50);
-        } while (app.Config.keep_scanning);
+        } while (app.Config.isKeepScanning());
     }
 
-    private boolean login(Config config) {
+    private boolean login(Config config) throws Exception {
 
         List<String> params = new ArrayList<>();
 
-        params.add(config.path_to_ocexe);
+        params.add(config.getPathToOcExe());
         params.add("login");
         params.add("-u");
-        params.add(config.user_name);
+        params.add(config.getUserName());
         params.add("-p");
-        params.add(config.password);
+        params.add(config.getPassword());
         params.add("-n");
-        params.add(config.server_name);
-        params.add(config.server_url);
+        params.add(config.getServerName());
+        params.add(config.getServerUrl());
 
         String[] par = new String[params.size()];
 
@@ -100,13 +118,13 @@ public class App {
         return false;
     }
 
-    private String get_pod(Config config) throws Exception {
+    private static String get_pod(Config config) throws Exception {
         // check, whether our pod exists and is running
-        List<String> pods = executeCommand(new String[]{config.path_to_ocexe, "get", "pods"});
+        List<String> pods = executeCommand(new String[]{config.getPathToOcExe(), "get", "pods"});
         //        Stream<String> filtered = pods.stream().filter(pod -> pod.contains(config.service_name));
         List<String> filtered = new ArrayList<String>();
         for (String pod : pods)
-            if (pod.contains(config.service_name))
+            if (pod.contains(config.getServiceName()))
                 filtered.add(pod);
 
         if (filtered.size() == 0) {
@@ -148,40 +166,55 @@ public class App {
         throw new Exception("Something went horribly wrong:" + output);
     }
 
-    private List<String> fetch_log(Config config, String pod_name) {
-        return executeCommand(new String[]{config.path_to_ocexe, "logs", pod_name});
+    private static Pair<Boolean, String> tryGetPod(Config config, int numberOfEfforts) throws Exception {
+
+        do {
+            String podName = null;
+            try {
+                podName = get_pod(config);
+            } catch (Exception e) {
+            }
+
+            if (!IsNullOrEmpty(podName))
+                return new Pair<Boolean, String>(true, podName);
+
+            Thread.sleep(400);
+        } while (numberOfEfforts-- > 0);
+
+        return new Pair<Boolean, String>(false, null);
     }
 
-    private List<String> executeCommand(String[] params) {
+    private List<String> fetch_log(Config config, String pod_name) throws Exception {
+        return executeCommand(new String[]{config.pathToOcExe, "logs", pod_name});
+    }
+
+    private static List<String> executeCommand(String[] params) throws Exception {
         List<String> output = new ArrayList<>();
-        try {
-            final Process p = Runtime.getRuntime().exec(params);
-            Thread thread = new Thread() {
-                public void run() {
-                    String line;
-                    BufferedReader input =
-                            new BufferedReader
-                                    (new InputStreamReader(p.getInputStream()));
-                    try {
-                        while ((line = input.readLine()) != null) {
-                            output.add(line);
-                        }
-                        input.close();
-                    } catch (Exception e) {
-                        System.out.println("Something happened" + e);
+        final Process p = Runtime.getRuntime().exec(params);
+        Thread thread = new Thread() {
+            public void run() {
+                String line;
+                BufferedReader input =
+                        new BufferedReader
+                                (new InputStreamReader(p.getInputStream()));
+                try {
+                    while ((line = input.readLine()) != null) {
+                        output.add(line);
                     }
+                    input.close();
+                } catch (Exception e) {
+                    System.out.println("Something happened" + e);
                 }
-            };
-            thread.start();
-            int result = p.waitFor();
-            thread.join();
-            if (result != 0) {
-                System.out.println("Process failed with status: " + result);
             }
-            p.destroy();
-        } catch (Exception e) {
-            System.out.println("Something happened" + e);
-        }
+        };
+        thread.start();
+        int result = p.waitFor();
+        thread.join();
+
+        if (result != 0)
+            throw new Exception("Process failed with status: " + result);
+
+        p.destroy();
 
         return output;
     }
@@ -347,6 +380,9 @@ public class App {
 
         html.add("<body>");
 
+        html.add("<div id = \"root\" class = \"root\">");
+        html.add("</div>");
+
         // by some reason, loading a style from file does not work as intended,
         // tho I have same style below
 
@@ -400,7 +436,7 @@ public class App {
         html.add("<table width='100%'>");
         for (Message message : messages) {
             html.add("<tr>");
-            if (Config.showLineNumbers)
+            if (Config.isShowLineNumbers())
                 html.add("<td text-align: left; width='35';>" + message.index + "</td>");
             html.add("<td>" + message.header);
             if (message.containsJson()) {
@@ -428,19 +464,6 @@ public class App {
         html.add("<script type=\"text/javascript\" src=\"./resources/convert.js\"></script>");
         html.add("<script type=\"text/javascript\" src=\"./resources/prettify_handler.js\"></script>");
         html.add("<script type=\"text/javascript\" src=\"./resources/update_file_content.js\"></script>");
-
-//        appendContent(html, ".\\resources_for_html_generation\\button_handler.js");
-//        html.add("<script>");
-//        appendContent(html, ".\\resources_for_html_generation\\reply_click.js");
-//        html.add("</script>");
-//
-//        html.add("<script>");
-//        appendContent(html, ".\\resources_for_html_generation\\main.js");
-//        html.add("</script>");
-//
-//        html.add("<script>");
-//        appendContent(html, ".\\resources_for_html_generation\\vkbeautify.js");
-//        html.add("</script>");
 
         html.add("</body>");
         html.add("</html>");

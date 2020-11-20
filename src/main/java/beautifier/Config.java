@@ -1,53 +1,54 @@
 package beautifier;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class Config {
 
-    public String user_name;
-    public String password;
+    String userName;
+    String password;
 
-    public String server_url;
-    public String server_name;
-    public String service_name;
+    String serverUrl;
+    String serverName;
+    String serviceName;
 
-    public String path_to_ocexe;
+    String pathToOcExe;
 
-    public boolean keep_scanning;
+    boolean keepScanning;
 
-    public int numberOfMessagesToTake;
+    int numberOfMessagesToTake;
 
-    public boolean showLineNumbers;
+    boolean showLineNumbers;
 
-    public Config() {
-        showLineNumbers = false;
-        numberOfMessagesToTake = 0;
-    }
-
-    public static Config load_config_from_file(String path_to_json) throws Exception {
+    public static Config load_config_from_file(String pathToJson) throws Exception {
 
         Config config = new Config();
 
         JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader(path_to_json)) {
+        try (FileReader reader = new FileReader(pathToJson)) {
 
             JSONObject o = (JSONObject) jsonParser.parse(reader);
-            config.path_to_ocexe = (String) o.get("pathToOCexe");
+            config.setPathToOcExe((String) o.get("pathToOCexe"));
 
             JSONObject network = (JSONObject) o.get("network");
-            config.service_name = (String) network.get("serviceName");
-            config.user_name = (String) network.get("userName");
-            config.password = (String) network.get("password");
-            config.server_name = (String) network.get("serverName");
-            config.server_url = (String) network.get("serverUrl");
+            config.setServiceName((String) network.get("serviceName"));
+            config.setUserName((String) network.get("userName"));
+            config.setPassword((String) network.get("password"));
+            config.setServerName((String) network.get("serverName"));
+            config.setServerUrl((String) network.get("serverUrl"));
 
-            config.keep_scanning = try_get_boolean(o.get("keepScanning"));
-            config.numberOfMessagesToTake = try_get_int(o.get("numberOfMessagesToTake"));
-            config.showLineNumbers = try_get_boolean(o.get("showLineNumbers"));
+            config.setKeepScanning(try_get_boolean(o.get("keepScanning")));
+            config.setNumberOfMessagesToTake(try_get_int(o.get("numberOfMessagesToTake")));
+            config.setShowLineNumbers(try_get_boolean(o.get("showLineNumbers")));
         } catch (ParseException e) {
             System.out.println(e.getStackTrace());
             e.printStackTrace();
